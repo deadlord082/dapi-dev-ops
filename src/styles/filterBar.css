@@ -1,0 +1,128 @@
+.filter-bar {
+  position: absolute;
+  top: 100px;
+  left: 20px;
+  right: 20px;
+  max-width: 600px;
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  z-index: 9;
+  padding: 8px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.filter-bar__pmr-option {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  white-space: nowrap;
+  flex-shrink: 0;
+  border: 2px solid #e0e0e0;
+}
+
+.filter-bar__pmr-checkbox {
+  cursor: pointer;
+  width: 18px;
+  height: 18px;
+  accent-color: #ff6b6b;
+}
+
+.filter-bar__pmr-label {
+  cursor: pointer;
+  user-select: none;
+  font-size: 13px;
+  font-weight: 600;
+  color: #333;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.filter-bar__scroll {
+  display: flex;
+  gap: 8px;
+  flex-wrap: nowrap;
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.filter-bar__button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 8px 12px;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  background-color: white;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  flex-shrink: 0;
+  font-size: 12px;
+  font-weight: 500;
+  color: #666;
+}
+
+.filter-bar__button:hover:not(.filter-bar__button--active) {
+  border-color: #4a90e2;
+  background-color: #f9f9f9;
+}
+
+.filter-bar__button--active {
+  color: white;
+  border: none;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.filter-bar__icon {
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.filter-bar__label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Scrollbar personnalisée */
+.filter-bar::-webkit-scrollbar {
+  height: 4px;
+}
+
+.filter-bar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.filter-bar::-webkit-scrollbar-thumb {
+  background: #d0d0d0;
+  border-radius: 2px;
+}
+
+.filter-bar::-webkit-scrollbar-thumb:hover {
+  background: #999;
+}
+
+@media (max-width: 768px) {
+  .filter-bar {
+    left: 10px;
+    right: 10px;
+    top: 90px;
+    max-width: none;
+  }
+}
+

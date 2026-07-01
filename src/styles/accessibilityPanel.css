@@ -1,0 +1,200 @@
+.accessibility-panel {
+  position: fixed;
+  top: 80px;
+  right: 20px;
+  z-index: 1002;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: flex-end;
+}
+
+/* Bouton d'alerte avec icône d'exclamation */
+.accessibility-panel__alert-button {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: #333;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+}
+
+.accessibility-panel__settings-button {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: #4a90e2;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+}
+
+.accessibility-panel__alert-icon {
+  font-size: 28px;
+  font-weight: bold;
+  color: white;
+  line-height: 1;
+}
+
+.accessibility-panel__settings-icon {
+  font-size: 22px;
+  color: white;
+  line-height: 1;
+}
+
+.accessibility-panel__settings-button:hover {
+  background-color: #3579c9;
+  transform: scale(1.1);
+}
+
+.accessibility-panel__alert-button:hover {
+  background-color: #222;
+  transform: scale(1.1);
+}
+
+.accessibility-panel__alert-button--active {
+  background-color: #ff6b6b;
+}
+
+/* Menu déroulant */
+.accessibility-panel__menu {
+  position: absolute;
+  top: 60px;
+  right: 0;
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  overflow: hidden;
+  min-width: 280px;
+  animation: slideDown 0.3s ease;
+  z-index: 1000;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Raccourcis dans le menu */
+.accessibility-panel__shortcuts {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  padding: 12px;
+}
+
+.accessibility-panel__shortcut {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  color: white;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 14px;
+  transition: all 0.2s ease;
+  text-align: left;
+}
+
+.accessibility-panel__shortcut:hover {
+  transform: translateX(-4px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.accessibility-panel__shortcut-icon {
+  font-size: 24px;
+  flex-shrink: 0;
+  min-width: 32px;
+  text-align: center;
+}
+
+.accessibility-panel__shortcut-label {
+  flex: 1;
+}
+
+/* Options supplémentaires */
+.accessibility-panel__options {
+  border-top: 1px solid #e0e0e0;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.accessibility-panel__option-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+}
+
+.accessibility-panel__option-item input[type='checkbox'] {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+  accent-color: #4a90e2;
+}
+
+.accessibility-panel__option-item label {
+  font-size: 13px;
+  color: #333;
+  cursor: pointer;
+  user-select: none;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .accessibility-panel {
+    top: 70px;
+    right: 10px;
+  }
+
+  .accessibility-panel__alert-button {
+    width: 45px;
+    height: 45px;
+  }
+
+  .accessibility-panel__settings-button {
+    width: 45px;
+    height: 45px;
+  }
+
+  .accessibility-panel__alert-icon {
+    font-size: 24px;
+  }
+
+  .accessibility-panel__settings-icon {
+    font-size: 20px;
+  }
+
+  .accessibility-panel__menu {
+    min-width: 250px;
+  }
+}
+
+@media (max-width: 480px) {
+  .accessibility-panel__menu {
+    min-width: calc(100vw - 80px);
+    max-width: calc(100vw - 20px);
+    right: 0;
+  }
+}

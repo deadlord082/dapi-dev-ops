@@ -1,0 +1,135 @@
+.search-bar {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  right: 20px;
+  max-width: 550px;
+  z-index: 10;
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  overflow: visible;
+  animation: slideDown 0.3s ease-out;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.search-bar__form {
+  padding: 16px;
+}
+
+.search-bar__double-input {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.search-bar__actions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.search-bar__button {
+  padding: 10px 14px;
+  border: none;
+  border-radius: 8px;
+  font-size: 13px;
+  cursor: pointer;
+  background-color: #f5f5f5;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.search-bar__button:hover:not(:disabled) {
+  background-color: #e0e0e0;
+}
+
+.search-bar__button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.search-bar__button--search {
+  background-color: #F36D63;
+  color: white;
+  flex: 1;
+}
+
+.search-bar__button--search:hover:not(:disabled) {
+  background-color: #e14d42;
+}
+
+.search-bar__button--reset {
+  background-color: #f0f0f0;
+  color: #666;
+  padding: 10px 10px;
+}
+
+.search-bar__button--reset:hover {
+  background-color: #e0e0e0;
+  color: #333;
+}
+
+.search-bar__info {
+  padding: 0 16px 12px 16px;
+  font-size: 12px;
+  color: #3A6FF7;
+  background-color: #fafafa;
+  border-top: 1px solid #f0f0f0;
+  line-height: 1.4;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .search-bar {
+    left: 10px;
+    right: 10px;
+    top: 10px;
+    max-width: none;
+  }
+
+  .search-bar__double-input {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .search-bar__button {
+    font-size: 12px;
+    padding: 9px 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .search-bar__form {
+    padding: 12px;
+  }
+
+  .search-bar__double-input {
+    gap: 8px;
+  }
+
+  .search-bar__actions {
+    gap: 6px;
+  }
+
+  .search-bar__button {
+    font-size: 11px;
+    padding: 8px 10px;
+  }
+}
+
