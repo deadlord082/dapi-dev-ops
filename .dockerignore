@@ -1,9 +1,10 @@
 # Dossiers de dépendances et builds
 node_modules
 dist
-.git
-.github
-.vscode
+build
+.vite
+.cache
+out
 
 # Fichiers de configuration locale
 .env
@@ -14,15 +15,25 @@ dist
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+pnpm-debug.log*
+*.log
 
-# Documentation et fichiers projet
-*.md
+# IDE et OS
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# Git et Docker
+.git
+.gitignore
+.dockerignore
+
+# Ne pas exclure le code nécessaire aux builds
 !README.md
 
-# Dossiers backend
-backend
-
-# Autres
-.eslintrc.cjs
-.gitignore
-vite.config.js
+# Réduire le contexte de build frontend
+backend/

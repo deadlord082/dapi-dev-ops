@@ -1,0 +1,94 @@
+services:
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: runtime
+      args:
+        VITE_API_BASE_URL: ${VITE_API_BASE_URL:-/api}
+    env_file: .env
+    ports:
+      - "${FRONTEND_PORT:-5173}:8080"
+    networks:
+      - frontend_backend
+    depends_on:
+      backend:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://127.0.0.1:8080/ || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+      target: runtime
+    env_file: .env
+    environment:
+      - PORT=${PORT:-3001}
+      - DB_HOST=${DB_HOST:-db}
+      - DB_USER=${DB_USER:-dapi_user}
+      - DB_PASSWORD=${DB_PASSWORD:-dapi_password}
+      - DB_NAME=${DB_NAME:-dapi_pmr}
+    networks:
+      - frontend_backend
+      - internal_db
+    depends_on:
+      db:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://127.0.0.1:3001/ || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+  db:
+    build:
+      context: ./docker/mysql
+      dockerfile: Dockerfile
+      target: runtime
+    env_file: .env
+    environment:
+      - MYSQL_ROOT_PASSWORD=${DB_ROOT_PASSWORD:-rootpassword}
+      - MYSQL_DATABASE=${DB_NAME:-dapi_pmr}
+      - MYSQL_USER=${DB_USER:-dapi_user}
+      - MYSQL_PASSWORD=${DB_PASSWORD:-dapi_password}
+    volumes:
+      - db_data:/var/lib/mysql
+    networks:
+      - internal_db
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping --silent -h127.0.0.1 -u\"${DB_USER}\" -p\"${DB_PASSWORD}\" || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+  dev-adminer:
+    image: adminer:4.8.1
+    profiles:
+      - dev
+    depends_on:
+      - db
+    ports:
+      - "8081:8080"
+    networks:
+      - internal_db
+    environment:
+      ADMINER_DEFAULT_SERVER: db
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://127.0.0.1:8080/ || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+volumes:
+  db_data:
+
+networks:
+  frontend_backend:
+    driver: bridge
+  internal_db:
+    driver: bridge
+    internal: true

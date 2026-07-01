@@ -66,7 +66,49 @@ npm run build
 npm run preview
 ```
 
-## 📚 Technologies Utilisées
+## � Docker
+
+### Prérequis
+- Docker Desktop ou Docker Engine installé et démarré
+- Sur Windows, Docker Desktop doit être en mode Linux Container
+- Copier `.env.example` en `.env` et adapter les variables
+
+### Lancer la stack en local
+```bash
+docker compose up --build
+```
+
+### Profils
+- `dev` : démarre aussi Adminer pour accéder à la base de données depuis `http://localhost:8081`
+- `prod` : démarre uniquement les services nécessaires
+
+Exemple pour le mode dev :
+```bash
+docker compose --profile dev up --build
+```
+
+### Vérifier le daemon Docker
+Si la commande retourne une erreur de type :
+> unable to get image 'dapi-backend': failed to connect to the docker API at npipe:////./pipe/dockerDesktopLinuxEngine
+
+Alors le daemon Docker n'est pas actif ou Docker Desktop n'est pas lancé.
+
+Sur Windows, vérifiez :
+```bash
+docker version
+```
+
+et ouvrez Docker Desktop, puis relancez :
+```bash
+docker compose up --build
+```
+
+### Points d’attention
+- Ne pas exposer la base de données publiquement
+- La configuration utilise un réseau interne `internal_db` pour le service `db`
+- Le frontend appelle le backend via `/api`
+
+## �📚 Technologies Utilisées
 
 - **React 19** : Framework UI moderne
 - **Vite** : Bundler ultra-rapide
