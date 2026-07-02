@@ -1,0 +1,17 @@
+name: Security
+
+on:
+  workflow_call:
+
+jobs:
+  security:
+    name: security check with Snyk
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v6
+
+      - name: Run security checks
+        uses: snyk/actions/node@master
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}

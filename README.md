@@ -187,6 +187,27 @@ docker compose up --build
 - Les APIs utilisées autorisent les requêtes cross-origin
 - Sinon, utiliser un proxy CORS
 
-## 📝 Licence
+## � CI/CD
+
+Le dépôt inclut maintenant un workflow GitHub Actions qui exécute les étapes suivantes sur chaque push vers la branche main :
+
+1. Lint
+2. Tests unitaires
+3. Build et publication de l'image Docker sur GHCR
+4. Analyse de vulnérabilités avec Trivy
+5. Déploiement sur un VPS via SSH
+
+### Secrets GitHub à configurer
+
+- SSH_HOST : adresse IP ou nom de domaine du VPS
+- SSH_USER : utilisateur SSH du VPS
+- SSH_PRIVATE_KEY : clé privée SSH permettant le déploiement
+- GHCR_TOKEN : token avec droits de lecture sur GHCR ou un token GitHub classique si l'usage est compatible
+
+### Déploiement VPS
+
+Le workflow déploie sur le VPS en utilisant la commande Docker Compose. Le serveur doit donc disposer de Docker et Docker Compose installés, ainsi que d'un dossier de déploiement prêt à recevoir la configuration de production.
+
+## �📝 Licence
 
 MIT

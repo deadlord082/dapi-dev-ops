@@ -1,0 +1,46 @@
+services:
+  frontend:
+    image: ${FRONTEND_IMAGE:-ghcr.io/${GITHUB_REPOSITORY:-dapi}-frontend:latest}
+    container_name: dapi-frontend
+    restart: unless-stopped
+    environment:
+      VITE_API_BASE_URL: ${VITE_API_BASE_URL:-/api}
+    ports:
+      - "${FRONTEND_PORT:-8080}:8080"
+    depends_on:
+      backend:
+        condition: service_healthy
+
+  backend:
+    image: ${BACKEND_IMAGE:-ghcr.io/${GITHUB_REPOSITORY:-dapi}-backend:latest}
+    container_name: dapi-backend
+    restart: unless-stopped
+    environment:
+      PORT: ${PORT:-3001}
+      DB_HOST: ${DB_HOST:-db}
+      DB_USER: ${DB_USER:-dapi_user}
+      DB_PASSWORD: ${DB_PASSWORD:-dapi_password}
+      DB_NAME: ${DB_NAME:-dapi_pmr}
+    depends_on:
+      db:
+        condition: service_healthy
+
+  db:
+    image: mysql:8.0
+    container_name: dapi-db
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:-rootpassword}
+      MYSQL_DATABASE: ${DB_NAME:-dapi_pmr}
+      MYSQL_USER: ${DB_USER:-dapi_user}
+      MYSQL_PASSWORD: ${DB_PASSWORD:-dapi_password}
+    volumes:
+      - db_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h 127.0.0.1 -uroot -p$${MYSQL_ROOT_PASSWORD} --silent"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+volumes:
+  db_data:

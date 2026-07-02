@@ -116,24 +116,58 @@ function App() {
     }, [loadPMRByNantes]);
 
     useEffect(() => {
-        loadPMRLocations();
-        const savedMarkers = getMarkersFromLocalStorage();
-        setCustomMarkers(savedMarkers);
+        let isMounted = true;
+
+        const initializeApp = async () => {
+            await loadPMRLocations();
+            if (!isMounted) {
+                return;
+            }
+
+            const savedMarkers = getMarkersFromLocalStorage();
+            setCustomMarkers(savedMarkers);
+        };
+
+        void initializeApp();
+
+        return () => {
+            isMounted = false;
+        };
     }, [loadPMRLocations]);
 
     useEffect(() => {
-        if (route && routePath) {
-            setShowRoutingPanel(true);
+        if (!route || !routePath) {
+            return;
         }
+
+        const frameId = window.requestAnimationFrame(() => {
+            setShowRoutingPanel(true);
+        });
+
+        return () => {
+            window.cancelAnimationFrame(frameId);
+        };
     }, [route, routePath]);
 
     useEffect(() => {
-        if (routePath && pmrLocations.length > 0) {
-            const nearby = findPMRAlongRoute(pmrLocations, routePath, 0.5);
-            setPMRNearbyRoute(nearby);
-        } else {
-            setPMRNearbyRoute([]);
+        if (!routePath || pmrLocations.length === 0) {
+            const frameId = window.requestAnimationFrame(() => {
+                setPMRNearbyRoute([]);
+            });
+
+            return () => {
+                window.cancelAnimationFrame(frameId);
+            };
         }
+
+        const nearby = findPMRAlongRoute(pmrLocations, routePath, 0.5);
+        const frameId = window.requestAnimationFrame(() => {
+            setPMRNearbyRoute(nearby);
+        });
+
+        return () => {
+            window.cancelAnimationFrame(frameId);
+        };
     }, [routePath, pmrLocations]);
 
     const handleSearch = async (addresses) => {
