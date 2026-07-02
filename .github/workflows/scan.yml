@@ -15,7 +15,7 @@ jobs:
       - name: Run Trivy vulnerability scanner on frontend image
         uses: aquasecurity/trivy-action@v0.36.0
         with:
-          image-ref: ${{ env.registry }}/${{ env.image_name }}-frontend:latest
+          image-ref: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}-frontend:latest
           format: 'table'
           exit-code: 1
           severity: 'CRITICAL,HIGH'
@@ -24,7 +24,7 @@ jobs:
       - name: Run Trivy vulnerability scanner on backend image
         uses: aquasecurity/trivy-action@v0.36.0
         with:
-          image-ref: ${{ env.registry }}/${{ env.image_name }}-backend:latest
+          image-ref: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}-backend:latest
           format: 'table'
           exit-code: 1
           severity: 'CRITICAL,HIGH'
