@@ -1,8 +1,8 @@
 # Dépendances
 node_modules/
-package-lock.json
 yarn.lock
 pnpm-lock.yaml
+# Keep package-lock.json for reproducible CI builds
 
 # Production
 dist/

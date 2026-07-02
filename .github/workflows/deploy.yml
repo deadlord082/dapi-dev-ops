@@ -1,0 +1,28 @@
+name: Deploy
+
+on:
+  workflow_call:
+
+jobs:
+  deploy:
+    name: Deploy to VPS
+    runs-on: ubuntu-latest
+    environment:
+      name: production
+    steps:
+      - name: Deploy over SSH
+        uses: appleboy/ssh-action@v1.2.5
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: 22
+          script: |
+            set -e
+            mkdir -p /home/${{ secrets.SSH_USER }}/apps/projects/dapi
+            cd /home/${{ secrets.SSH_USER }}/apps/projects/dapi
+            echo "${{ secrets.GHCR_TOKEN }}" | docker login ghcr.io -u "${{ github.actor }}" --password-stdin
+            FRONTEND_IMAGE=ghcr.io/${{ github.repository }}-frontend:latest BACKEND_IMAGE=ghcr.io/${{ github.repository }}-backend:latest docker compose -f docker-compose.prod.yml pull
+            FRONTEND_IMAGE=ghcr.io/${{ github.repository }}-frontend:latest BACKEND_IMAGE=ghcr.io/${{ github.repository }}-backend:latest docker compose -f docker-compose.prod.yml down || true
+            FRONTEND_IMAGE=ghcr.io/${{ github.repository }}-frontend:latest BACKEND_IMAGE=ghcr.io/${{ github.repository }}-backend:latest docker compose -f docker-compose.prod.yml up -d --remove-orphans
+            docker image prune -f
