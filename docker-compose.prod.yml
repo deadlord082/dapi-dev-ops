@@ -3,6 +3,8 @@ services:
     image: ${FRONTEND_IMAGE}
     container_name: dapi-frontend
     restart: unless-stopped
+    env_file:
+      - .env
     environment:
       VITE_API_BASE_URL: ${VITE_API_BASE_URL:-/api}
     ports:
@@ -10,25 +12,29 @@ services:
     depends_on:
       backend:
         condition: service_healthy
+    networks:
+      - dev-ops-network
+      - public-network
 
   backend:
     image: ${BACKEND_IMAGE}
     container_name: dapi-backend
     restart: unless-stopped
-    environment:
-      PORT: ${PORT:-3001}
-      DB_HOST: ${DB_HOST:-db}
-      DB_USER: ${DB_USER:-dapi_user}
-      DB_PASSWORD: ${DB_PASSWORD:-dapi_password}
-      DB_NAME: ${DB_NAME:-dapi_pmr}
+    env_file:
+      - .env
     depends_on:
       db:
         condition: service_healthy
+    networks:
+      - dev-ops-network
+      - public-network
 
   db:
     image: mysql:8.0
     container_name: dapi-db
     restart: unless-stopped
+    env_file:
+      - .env
     environment:
       MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:-rootpassword}
       MYSQL_DATABASE: ${DB_NAME:-dapi_pmr}
@@ -41,6 +47,16 @@ services:
       interval: 30s
       timeout: 10s
       retries: 5
+    networks:
+      - dev-ops-network
+
+networks:
+  dev-ops-network:
+    name: dev-ops-network
+    driver: bridge
+  public_network:
+    name: public_network
+    external: true
 
 volumes:
   db_data:
