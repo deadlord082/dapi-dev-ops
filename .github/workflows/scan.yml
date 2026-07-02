@@ -13,21 +13,19 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Run Trivy vulnerability scanner on frontend image
-        uses: aquasecurity/trivy-action@0.24.0
+        uses: aquasecurity/trivy-action@v0.36.0
         with:
-          image-ref: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}-frontend:latest
-          format: table
+          image-ref: ${{ env.registry }}/${{ env.image_name }}-frontend:latest
+          format: 'table'
           exit-code: 1
+          severity: 'CRITICAL,HIGH'
           ignore-unfixed: true
-          vuln-type: os,library
-          severity: CRITICAL
 
       - name: Run Trivy vulnerability scanner on backend image
-        uses: aquasecurity/trivy-action@0.24.0
+        uses: aquasecurity/trivy-action@v0.36.0
         with:
-          image-ref: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}-backend:latest
-          format: table
+          image-ref: ${{ env.registry }}/${{ env.image_name }}-backend:latest
+          format: 'table'
           exit-code: 1
+          severity: 'CRITICAL,HIGH'
           ignore-unfixed: true
-          vuln-type: os,library
-          severity: CRITICAL
