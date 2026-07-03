@@ -7,14 +7,12 @@ services:
       - .env
     environment:
       VITE_API_BASE_URL: ${VITE_API_BASE_URL:-/api}
-    ports:
-      - "${FRONTEND_PORT:-83}:8080"
     depends_on:
       backend:
         condition: service_healthy
     networks:
       - dev-ops-network
-      - public-network
+      - public_network
 
   backend:
     image: ${BACKEND_IMAGE}
@@ -27,7 +25,7 @@ services:
         condition: service_healthy
     networks:
       - dev-ops-network
-      - public-network
+      - public_network
 
   db:
     image: mysql:8.0
@@ -36,10 +34,10 @@ services:
     env_file:
       - .env
     environment:
-      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:-rootpassword}
-      MYSQL_DATABASE: ${DB_NAME:-dapi_pmr}
-      MYSQL_USER: ${DB_USER:-dapi_user}
-      MYSQL_PASSWORD: ${DB_PASSWORD:-dapi_password}
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${DB_NAME}
+      MYSQL_USER: ${DB_USER}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
     volumes:
       - db_data:/var/lib/mysql
     healthcheck:

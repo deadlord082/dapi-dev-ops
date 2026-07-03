@@ -82,10 +82,6 @@ docker compose up --build
 - `dev` : démarre aussi Adminer pour accéder à la base de données depuis `http://localhost:8081`
 - `prod` : démarre uniquement les services nécessaires
 
-Exemple pour le mode dev :
-```bash
-docker compose --profile dev up --build
-```
 
 ### Vérifier le daemon Docker
 Si la commande retourne une erreur de type :
